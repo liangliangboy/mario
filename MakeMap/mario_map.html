@@ -8,13 +8,19 @@
 </head>
 
 <body>
-	<canvas id="id-canvas">
-		<!-- <img src="素材/透明底纹素材/小马里奥/stand.png"> -->
-	</canvas>
 	<div id='id-canvas-left'>
 		<img id="block" src="..//素材//block.png" />
 		<img id="floor" src="..//素材//floor.png" />
 	</div>
+	<canvas id="id-canvas">
+		<!-- <img src="素材/透明底纹素材/小马里奥/stand.png"> -->
+	</canvas>
+	<div id="menu">
+		jsReadFile:<input type="file" onchange="jsReadFiles(this.files)" />
+		jsSaveFile:<input type="button" value="保存" onclick="jsSaveFile()" />
+		mapName:<input id='mapName' type="text" />
+	</div>
+
 	<!-- width=16 height=15-->
 	<script type="text/javascript">
 		var canvas_width = 20
@@ -24,6 +30,81 @@
 		var context1 = canvas1.getContext('2d')
 		canvas1.width = canvas_width * timer
 		canvas1.height = canvas_height * timer
+
+		var block = document.getElementById('block')
+		var floor = document.getElementById('floor')
+		//地图数组
+		var map = new Array();         //先声明一维
+		for (var i = 0; i < canvas_width; i++) {          //一维长度为5
+			map[i] = new Array(i);    //在声明二维
+			for (var j = 0; j < canvas_height; j++) {      //二维长度为5
+				map[i][j] = 9;
+			}
+		}
+
+		//根据map数据绘画地图
+		const drawMap = function () {
+			for (var i = 0; i < canvas_width * canvas_height; i++) {
+				var x = parseInt(i % canvas_width) * timer
+				var y = parseInt(i / canvas_width) * timer
+				if (map[i] == "0") {
+					context1.drawImage(self.block, x, y, timer, timer)
+				}
+				if (map[i] == "1") {
+					context1.drawImage(self.floor, x, y, timer, timer)
+				}
+				// console.log(map[i])
+			}
+		}
+		drawMap(map)
+		//读取文件
+		//js 读取文件
+		function jsReadFiles(files) {
+			if (files.length) {
+				var file = files[0];
+				var reader = new FileReader();//new一个FileReader实例
+				if (/text+/.test(file.type)) {//判断文件类型，是不是text类型
+					console.log("文件长度:", file.size / 2) //使用utf-8编码 除以二才是字符个数长度
+					reader.onload = function () {
+						// console.log(this)
+						self.map = this.result.split('');
+						// console.log(map)
+						drawMap(map)
+					}
+					reader.readAsText(file);
+				} else if (/image+/.test(file.type)) {//判断文件是不是imgage类型
+					reader.onload = function () {
+						console.log("文件类型不对")
+					}
+					reader.readAsDataURL(file);
+				}
+			}
+		}
+		//js写入文件
+		function jsSaveFile() {
+			//文件名字空间
+			var mapName = document.getElementById('mapName')
+
+			//因为是二维循环，所有要写两次，一次只能去掉一层循环
+			var data = []
+			var item = []
+			for (var i = 0; i < canvas_height; i++) {
+				for (var j = 0; j < canvas_width; j++) {
+					item.push(map[j][i])
+				}
+				data.push(item.join(''))
+				item = []
+			}
+			// console.log(data.join(''))
+			var inData = data.join('')
+			var elementA = document.createElement('a')
+			elementA.setAttribute('href', 'data:text/plain;charset=utf-8,' + data.join(''))
+			elementA.setAttribute('download', mapName.value + ".txt")
+			elementA.style = 'none'
+			document.body.appendChild(elementA)
+			elementA.click()
+			document.body.removeChild(elementA)
+		}
 
 		//初始化资源
 		var imageFromPaht = function (path) {
@@ -38,40 +119,15 @@
 			}
 			return img
 		}
-		var lm_stand = function (path) {
-			var img = imageFromPaht(path)
-			img.width = timer
-			img.height = timer
-			console.log('img1', img)
-			var o = {
-				image: img,
-				x: 0,
-				y: 0,
-				speed: 0,
-			}
-			return o;
-		}
 
-		// 砖块
-		//var block = imageFromPaht('素材//block.png')
-
-		//地板
-		var floor = imageFromPaht('素材//floor.png')
-
-
-
-		var block = new Image()
-		block.src = '素材//block.png'
-		block.width = timer
-		block.height = timer
 
 		let target = 0;
-		var block=document.getElementById('block')
+
 		block.addEventListener('click', function (event) {
 			console.log(event)
 			target = 0
 		})
-		var floor=document.getElementById('floor')
+
 		floor.addEventListener('click', function (event) {
 			console.log(event)
 			target = 1
@@ -86,11 +142,15 @@
 			var point_x = parseInt(mouse_x / timer) //相对格子的位置x
 			var point_y = parseInt(mouse_y / timer) //相对各自的位置y
 			console.log("point_x:" + point_x + ",point_y:" + point_y);
-			console.log("target:",target)
-			if(target==0)
-				context1.drawImage(self.block,point_x*timer,point_y*timer,timer,timer)
-			if(target==1)
-				context1.drawImage(self.floor,point_x*timer,point_y*timer,timer,timer)
+			console.log("target:", target)
+			if (target == 0) {
+				context1.drawImage(self.block, point_x * timer, point_y * timer, timer, timer)
+				map[point_x][point_y] = 0
+			}
+			if (target == 1) {
+				context1.drawImage(self.floor, point_x * timer, point_y * timer, timer, timer)
+				map[point_x][point_y] = 1
+			}
 		})
 	</script>
 </body>

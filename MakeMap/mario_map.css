@@ -5,4 +5,11 @@ canvas{
     float: left;
     width: 160px;
     height: 320px;
+    font-size:0;
+}
+#id-canvas{
+    float: left;
+}
+#menu{
+    float: left;
 }
