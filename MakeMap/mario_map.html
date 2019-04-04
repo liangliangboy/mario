@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>地图制作器</title>
+	<link href="mario_map.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+	<canvas id="id-canvas">
+		<!-- <img src="素材/透明底纹素材/小马里奥/stand.png"> -->
+	</canvas>
+	<div id='id-canvas-left'>
+		<img id="block" src="..//素材//block.png" />
+		<img id="floor" src="..//素材//floor.png" />
+	</div>
+	<!-- width=16 height=15-->
+	<script type="text/javascript">
+		var canvas_width = 20
+		var canvas_height = 15
+		var timer = 30//倍数
+		var canvas1 = document.getElementById('id-canvas')
+		var context1 = canvas1.getContext('2d')
+		canvas1.width = canvas_width * timer
+		canvas1.height = canvas_height * timer
+
+		//初始化资源
+		var imageFromPaht = function (path) {
+			var img = new Image()
+			img.src = path
+			img.width = timer
+			img.height = timer
+			img.onload = function () {
+				// return
+				console.log('img', img)
+				console.log("img OK")
+			}
+			return img
+		}
+		var lm_stand = function (path) {
+			var img = imageFromPaht(path)
+			img.width = timer
+			img.height = timer
+			console.log('img1', img)
+			var o = {
+				image: img,
+				x: 0,
+				y: 0,
+				speed: 0,
+			}
+			return o;
+		}
+
+		// 砖块
+		//var block = imageFromPaht('素材//block.png')
+
+		//地板
+		var floor = imageFromPaht('素材//floor.png')
+
+
+
+		var block = new Image()
+		block.src = '素材//block.png'
+		block.width = timer
+		block.height = timer
+
+		let target = 0;
+		var block=document.getElementById('block')
+		block.addEventListener('click', function (event) {
+			console.log(event)
+			target = 0
+		})
+		var floor=document.getElementById('floor')
+		floor.addEventListener('click', function (event) {
+			console.log(event)
+			target = 1
+		})
+		document.getElementById('id-canvas').addEventListener('click', function (event) {
+			console.log(event)
+			// console.log(event.)
+			var rect = this.getBoundingClientRect()
+			var mouse_x = parseInt(event.clientX - rect.left * (this.width / rect.width))
+			var mouse_y = parseInt(event.clientY - rect.top * (this.height / rect.height))
+			// console.log("mouse_x:" + mouse_x + ",mouse_y:" + mouse_y);
+			var point_x = parseInt(mouse_x / timer) //相对格子的位置x
+			var point_y = parseInt(mouse_y / timer) //相对各自的位置y
+			console.log("point_x:" + point_x + ",point_y:" + point_y);
+			console.log("target:",target)
+			if(target==0)
+				context1.drawImage(self.block,point_x*timer,point_y*timer,timer,timer)
+			if(target==1)
+				context1.drawImage(self.floor,point_x*timer,point_y*timer,timer,timer)
+		})
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,8 @@
+canvas{
+    border:dashed 1px lightskyblue
+}
+#id-canvas-left{
+    float: left;
+    width: 160px;
+    height: 320px;
+}
