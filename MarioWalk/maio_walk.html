@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>可以行动的马里奥</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="mario_walk.css">
+</head>
+
+<body>
+    <div class="container">
+        <canvas id="id-mario-map">
+
+        </canvas>
+    </div>
+
+    <script type="text/javascript">
+        var canvas_width = 20
+        var canvas_height = 15
+        var timer = 30//倍数
+        var canvas = document.getElementById('id-mario-map')
+        var context = canvas.getContext('2d')
+        canvas.width = canvas_width * timer
+        canvas.height = canvas_height * timer
+        
+        var imageFromPath = function (path) {
+			var img = new Image()
+			img.src = path
+			img.width = timer
+			img.height = timer
+			img.onload = function () {
+				// return
+				console.log('img', img)
+				console.log("img OK")
+			}
+			return img
+        }
+        
+        var block = imageFromPath('..//素材//block.png')
+        var floor = imageFromPath('..//素材//floor.png')
+        var mario = imageFromPath('..//素材//透明底纹素材//小马里奥//stand.png')
+        var map = new Array();         //先声明一维
+		for (var i = 0; i < canvas_width; i++) {          //一维长度为5
+			map[i] = new Array(i);    //在声明二维
+			for (var j = 0; j < canvas_height; j++) {      //二维长度为5
+				map[i][j] = 9;
+			}
+        }
+        //根据map数据绘画地图
+		const drawMap = function () {
+			for (var i = 0; i < canvas_width * canvas_height; i++) {
+				var x = parseInt(i % canvas_width) * timer
+				var y = parseInt(i / canvas_width) * timer
+                console.log(self.block)
+                if (map[i] == "0") {
+					context.drawImage(self.block, x, y, timer, timer)
+				}
+				if (map[i] == "1") {
+					context.drawImage(self.floor, x, y, timer, timer)
+				}
+				// console.log(map[i])
+            }
+            context.drawImage(self.mario,2*timer,12*timer,timer,timer)
+		}
+        //初始化map
+        const initMap =function(){
+            var str ="999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999990009999999999999999999999999999999999999999999999990000999000000099999999999999999999999999999999999999999999999999999999999999999999999999999999999991111111111111111111111111111111111111111"
+            map=str.split('')
+            drawMap(map)
+            console.log(map)
+        }
+        initMap()
+        window.addEventListener('keydown',function(event){
+            
+        })
+    </script>
+</body>
+
+</html>
