@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Canvers学习</title>
+</head>
+<body>
+	<canvas id="id-canvers" width="800" height="600"></canvas>
+	<script type="text/javascript">
+		var canvers=document.getElementById('id-canvers')
+		var context=canvers.getContext('2d');
+
+		//绘制(100,100) width=600,height=400的填充矩形
+		context.fillRect(100,100,600,400)
+
+		//把画笔颜色修改为白色
+		context.fillStyle='#FFA500'
+
+		//如果线（路径）没有闭合，就不会显示
+		context.beginPath()
+		context.moveTo(100,150)
+		context.lineTo(700,200)
+		context.lineTo(700,100)
+		// context.lineTo(100,150)
+		context.fill()//自动闭合
+		
+	</script>
+</body>
+</html>

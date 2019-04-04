@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SuperMario</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="game.css">
+	<style type="text/css">
+		canvas{
+			border:dashed 1px lightskyblue
+		}
+	</style>
+</head>
+<body>
+	<h3></h3>32784
+	<canvas id="id-canvas" data-action="draw_title" data-type="source" width="640" height="640"></canvas>
+	<canvas id="id-canvas-spite" data-action="draw_title" data-type="title"  width="160" height="320"></canvas>
+	<canvas data-action="draw_title" data-type="title"  width="160" height="320"></canvas>
+	<canvas data-action="draw_title" data-type="title"  width="80" height="80"></canvas>
+	<canvas data-action="draw_title" data-type="title"  width="160" height="160"></canvas>
+	<canvas id="id-canvas-ani" data-action="draw_title" data-type="title"  width="320" height="320"></canvas>
+
+
+	<div class="gua-controls">
+		<button data-action="change_offset" data-offset="-1024">-1024</button>
+		<button data-action="change_offset" data-offset="-16">-16</button>
+		<button data-action="change_offset" data-offset="+16">+16</button>
+		<button data-action="change_offset" data-offset="1024">+1024</button>
+	</div>
+	<!-- <canvas id="mario-canvas" width="300" height="300" style="border: 1px black solid"></canvas> -->
+	<script type="text/javascript" src="mario.js"></script>
+</body>
+</html>

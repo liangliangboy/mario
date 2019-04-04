@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<canvas id="id-canvas">
+		<!-- <img src="素材/透明底纹素材/小马里奥/stand.png"> -->
+	</canvas>
+	<div id='id-canvas-left'>
+		<img src="..//素材//block.png"/>
+		<img src="..//素材//floor.png" />
+	</div>
+	<!-- width=16 height=15-->
+	<script type="text/javascript">
+		var canvas_width=16
+		var canvas_height=15
+		var timer=30//倍数
+		var canvas1=document.getElementById('id-canvas')
+		var context1=canvas1.getContext('2d')
+		canvas1.width=canvas_width*timer
+		canvas1.height=canvas_height*timer
+
+		//初始化资源
+		var imageFromPaht=function(path){
+			var img=new Image()
+			img.src=path
+			img.width=timer
+			img.height=timer
+			img.onload=function(){
+				// return
+				console.log('img',img)
+				console.log("img OK")
+			}
+			return img
+		}
+		var lm_stand=function(path){
+			var img=imageFromPaht(path)
+			img.width=timer
+			img.height=timer
+			console.log('img1',img)
+			var o={
+				image:img,
+				x:0,
+				y:0,
+				speed:0,
+			}
+			return o;
+		}
+
+		// 砖块
+		//var block = imageFromPaht('素材//block.png')
+
+		//地板
+		var floor = imageFromPaht('素材//floor.png')
+
+
+
+		var block = new Image()
+		block.src='素材//block.png'
+		block.width=timer
+		block.height=timer
+	
+		document.getElementById('id-canvas-left').addEventListener('click',function(event){
+			
+		})
+	</script>
+</body>
+</html>
